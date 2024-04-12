@@ -10,7 +10,7 @@
 * [Usage](#usage)
 * [Built With](#built-with)
 * [Images](#images)
-* [Links] (#links)
+* [Links](#links)
 
 ## Criteria
 
@@ -53,3 +53,4 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 
 ## Links
+
