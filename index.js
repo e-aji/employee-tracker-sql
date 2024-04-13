@@ -1,13 +1,12 @@
 const inquirer = require ('inquirer');
-const {viewDepartments, viewRoles, viewEmployees, addDepartment, addRole, addEmployee, updateEmployeeRole, AddRoleQuestions, UpdateEmployeeRoleQuestions} = require('./questions.js');
-const EmployeeDatabase = require('./db/EmployeeDatabase');
+const {MainMenuQuestions, AddDepartmentQuestions, AddEmployeeQuestions, AddRoleQuestions, UpdateEmployeeRoleQuestions} = require('./questions.js');
+const EmployeeDatabase = require('./db/EmployeeDatabase.js');
 
 const db = new EmployeeDatabase({
+    user: 'postgres',
+    password: 'five',
     host: 'localhost',
-    user: 'root',
-    // password: 'password',
     database: 'employee_db'
-
 });
 
 db.connect();
