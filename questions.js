@@ -1,7 +1,7 @@
 const MainMenuQuestions = [
     {
         type: 'list',
-        name: 'mainMenu',
+        name: 'option',
         message: 'What would you like to do?',
         choices: [
            {value: 'view_departments', name: 'View All Departments'},
@@ -10,7 +10,7 @@ const MainMenuQuestions = [
            {value: 'add_department', name: 'Add A Department'},
            {value: 'add_role', name: 'Add A Role'},
            {value: 'add_employee', name: 'Add An Employee'},
-           {value: 'update_employee_role', name: 'Update An Employee Role'},
+           {value: 'update_role', name: 'Update An Employee Role'},
         ]
     }
 
@@ -27,21 +27,21 @@ const AddDepartmentQuestions = [
 const AddRoleQuestions = [
     {
         type: 'input',
-        name: 'role_title',
+        name: 'title',
         message: 'What is the title of the new role?'
     },
     {
 
-        type: 'input', name: 'salary', message: 'What is the salary of the new role? (numeric only)...',
+        type: 'number', name: 'salary', message: 'What is the salary of the new role? (numeric only)...',
         validate: function (value) {
-            const valid = !isNaN(parseFloat(value));
-            return valid || 'Please enter a number';
+            const valid = !isNaN(parseInt(value));
+            return valid || 'Please enter a valid number';
         }
     },
     {
         type: 'input',
         name: 'department_id',
-        message: 'What is the department of the new role?',
+        message: 'Select the department for this role....',
         choices: [
             
         ],
@@ -62,7 +62,7 @@ const AddEmployeeQuestions = [
     {
         type: 'list',
         name: 'role_id',
-        message: 'What is the employee\'s role?',
+        message: 'Select the role for this employee....',
         choices: [
             
         ],
@@ -70,7 +70,7 @@ const AddEmployeeQuestions = [
     {
         type: 'list',
         name: 'manager_id',
-        message: 'Who is the employee\'s manager?',
+        message: 'Select the employee\'s manager....',
         choices: [
             
         ],
@@ -81,7 +81,7 @@ const UpdateEmployeeRoleQuestions = [
     {
         type: 'list',
         name: 'employee_id',
-        message: 'Which employee do you want to update?',
+        message: 'Select the employee you would like to update....',
         choices: [
             
         ],
@@ -89,7 +89,7 @@ const UpdateEmployeeRoleQuestions = [
     {
         type: 'list',
         name: 'role_id',
-        message: 'What is the employee\'s new role?',
+        message: 'Select the new role for this employee....',
         choices: [
             
         ],

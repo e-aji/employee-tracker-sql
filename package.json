@@ -1,6 +1,18 @@
 {
   "dependencies": {
     "inquirer": "^8.2.4",
-    "pg": "^8.11.5"  
-  }
+    "pg": "^8.11.5"
+  },
+  "name": "employee-tracker-sql",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

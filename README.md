@@ -43,9 +43,9 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 ## Built With 
 
-* 
-*  
-* 
+* Node.js
+* Inquirer (npm utility)
+* Postgres 
 * 
 
 ## Images 
@@ -54,3 +54,4 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 ## Links
 
+Link to Walkthrough Video - 

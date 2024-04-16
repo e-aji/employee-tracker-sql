@@ -12,8 +12,8 @@ INSERT INTO role (id, title, salary, department) VALUES (5, 'Account Manager', 1
 INSERT INTO role (id, title, salary, department) VALUES (6, 'Accountant', 125000, 3);
 INSERT INTO role (id, title, salary, department) VALUES (7, 'Legal Team Lead', 250000, 4);
 INSERT INTO role (id, title, salary, department) VALUES (8, 'Lawyer', 190000, 4);
-INSERT INTO role (id, title, salary, department) VALUES (9, 'Marketing Lead', 100000, 5);
-INSERT INTO role (id, title, salary, department) VALUES (10, 'Marketing Specialist', 80000, 5);
+INSERT INTO role (id, title, salary, department) VALUES (9, 'Marketing Manager', 100000, 5);
+INSERT INTO role (id, title, salary, department) VALUES (10, 'Marketing Specialist', 90000, 5);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (1, 'Aya', 'Gilbert', 1, NULL);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (2, 'Tobias', 'Black', 2, 1);
