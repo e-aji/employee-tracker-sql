@@ -27,7 +27,6 @@ class Database {
             database: 'employee_db'
         });
     
-        // Connect to the database
         this.db.connect(err => {
             if (err) {
                 console.error('Error connecting to database:', err);
