@@ -18,7 +18,7 @@ class EmployeeDatabase extends Database {
 
     getRoles() {
         return new Promise((resolve, reject) => {
-            this.db.query('SELECT * FROM roles INNER JOIN department ON roles.department_id = department.id', (err, results) => {
+            this.db.query('SELECT * FROM role INNER JOIN department ON role.department_id = department.id', (err, results) => {
                 if (err) { 
                     reject(err);
                 }
@@ -39,8 +39,8 @@ class EmployeeDatabase extends Database {
                 IF (CONCAT(manager.first_name, ' ', manager.last_name) IS NULL, '', CONCAT(manager.first_name, " ", manager.last_name)) as manager
             
             FROM employee 
-                INNER JOIN roles ON employee.role_id = role.id
-                INNER JOIN department ON roles.department_id = department.id
+                INNER JOIN role ON employee.role_id = role.id
+                INNER JOIN department ON role.department_id = department.id
                 LEFT JOIN employee as manager ON employee.manager_id = manager.id`    
             ,   (err, results) => {
                 if (err) { 
@@ -64,13 +64,9 @@ class EmployeeDatabase extends Database {
 
     addRole(role) {
 
-        const roleData = {
-            title: role.title,
-            salary: role.salary,
-            department_id: role.department_id
-        };
         return new Promise((resolve, reject) => {
-            this.db.query('INSERT INTO roles SET ?', roleData, (err, results) => {
+            this.db.query('INSERT INTO role(title, salary, department_id) ($1, $2, $3);', 
+            [role.title, role.salary, role.department_id], (err, results) => {
                 if (err) { 
                     reject(err);
                 }
@@ -81,14 +77,9 @@ class EmployeeDatabase extends Database {
 
     addEmployee (employee) {
 
-        const employeeData = {
-            first_name: employee.first_name,
-            last_name: employee.last_name,
-            role_id: employee.role_id,
-            manager_id: employee.manager_id
-        }
         return new Promise((resolve, reject) => {
-            this.db.query('INSERT INTO employee SET ?', employeeData, (err, results) => {
+            this.db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);', 
+            [employeeData.first_name, employeeData.last_name, employeeData.role_id, employeeData.manager_id], (err, results) => {
                 if (err) { 
                     reject(err);
                 }
@@ -100,7 +91,7 @@ class EmployeeDatabase extends Database {
     updateEmployeeRole(employee) {
      
         return new Promise((resolve, reject) => {
-            this.db.query('UPDATE employee SET role_id =?, WHERE id =?', [employee.role_id, employee.employee_id], (err, results) => {
+            this.db.query('UPDATE employee SET role_id =($1), WHERE id =($2);', [employee.role_id, employee.employee_id], (err, results) => {
                 if (err) { 
                     reject(err);
                 }

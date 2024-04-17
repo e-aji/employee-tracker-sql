@@ -51,14 +51,16 @@ const view_departments = () => {
 
     .then((results) => {
         //console.log("Data: ", results);
-        console.log("Data - Rows: ", results.rows);
+        // console.log("Data - Rows: ", results.rows);
 
         const departmentData = results.rows;
 
         console.table(departmentData);
-        doMenuQuestions();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log('Error getting current departments table', err));
+
+    doMenuQuestions();
+
 }
 
 
@@ -69,10 +71,13 @@ const view_roles = () => {
     .then((results) => {
 
         const roleData = results.rows;
+
         console.table(roleData);
-        doMenuQuestions();
+
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log('Error getting current roles table' , err));
+
+    doMenuQuestions();
 
 }
 
@@ -82,12 +87,17 @@ const view_employees = () => {
     db.getEmployees()
 
     .then((results) => {
+        
+        console.log(results);
 
         const employeeData = results.rows;
         console.table(employeeData);
+       
         doMenuQuestions();
+
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log('Error getting current employees table' , err));
+
 }
 
 
@@ -98,10 +108,12 @@ const add_department = () => {
     .then((response) => {
         db.addDepartment(response).then((results) => {
             console.log('/n', results, '/n');
-            doMenuQuestions();
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log('Error adding new department', err));
+
     })
+
+    doMenuQuestions();
 }
 
 const add_role = () => {
@@ -109,7 +121,7 @@ const add_role = () => {
    db.getDepartments().then((results) => {
 
     const departmentQuestion = AddRoleQuestions[2];
-    results.forEach ((department) => {
+    results.rows.forEach ((department) => {
         departmentQuestion.choices.push({
             value: department.id, 
             name: department.name
@@ -121,20 +133,22 @@ const add_role = () => {
         .then((response) => {
             db.addRole(response).then((results) => {
                 console.log('/n', results, '/n');
-                doMenuQuestions();
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log('Error adding new role', err));
         });
    });
+
+        doMenuQuestions();
+
 }
 
 
 const add_employee = () => {
 
-    db.getRoles().then((results) => {
+    db.getRoles().then((roleResults) => {
 
         const roleQuestion = AddEmployeeQuestions[2];
-        results.forEach ((role) => {
+        roleResults.rows.forEach ((role) => {
             const role_summary = `${role.title} (${role.department_name}: ${role.salary})`;
             roleQuestion.choices.push({
                 value: role.id, 
@@ -142,10 +156,10 @@ const add_employee = () => {
             });
         });
 
-        db.getEmployees().then((results) => {
+        db.getEmployees().then((employeeResults) => {
 
             const managerQuestion = AddEmployeeQuestions[3];
-            results.forEach ((employee) => {
+            employeeResults.rows.forEach ((employee) => {
                 managerQuestion.choices.push({
                     value: employee.id, 
                     name: employee.name
@@ -162,21 +176,22 @@ const add_employee = () => {
                 .then(response => {
                     db.addEmployee(response).then((results) => {
                         console.log('/n', results, '/n');
-                        doMenuQuestions();
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => console.log('Error adding new employee', err));
                 });
         });
     });
+
+    doMenuQuestions();
 }
 
 
 const update_role = () => {
 
-    db.getEmployees().then((results) => {
+    db.getEmployees().then((employeeResults) => {
 
         const employeeQuestion = UpdateEmployeeRoleQuestions[0];
-        results.forEach((employee) => {
+        employeeResults.rows.forEach((employee) => {
             employeeQuestion.choices.push({
                 value: employee.id, 
                 name: employee.name
@@ -185,9 +200,9 @@ const update_role = () => {
 
         db.getRoles()
 
-        .then((results) => {
+        .then((roleResults) => {
             const roleQuestion = UpdateEmployeeRoleQuestions[1];
-            results.forEach ((role) => {
+            roleResults.rows.forEach ((role) => {
                 roleQuestion.choices.push({
                     value: role.id, 
                     name: role.title
@@ -199,12 +214,13 @@ const update_role = () => {
                 .then((response) => {
                     db.updateEmployeeRole(response).then((results) => {
                         console.log('/n', results, '/n');
-                        doMenuQuestions();
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => console.log('Error updating role' , err));
                 });
         });
     });
+
+    doMenuQuestions();
 }
 
 
