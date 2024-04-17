@@ -50,7 +50,12 @@ const view_departments = () => {
     db.getDepartments()
 
     .then((results) => {
-        console.table(results);
+        //console.log("Data: ", results);
+        console.log("Data - Rows: ", results.rows);
+
+        const departmentData = results.rows;
+
+        console.table(departmentData);
         doMenuQuestions();
     })
     .catch(err => console.log(err));
@@ -62,7 +67,9 @@ const view_roles = () => {
     db.getRoles()
 
     .then((results) => {
-        console.table(results);
+
+        const roleData = results.rows;
+        console.table(roleData);
         doMenuQuestions();
     })
     .catch(err => console.log(err));
@@ -75,7 +82,9 @@ const view_employees = () => {
     db.getEmployees()
 
     .then((results) => {
-        console.table(results);
+
+        const employeeData = results.rows;
+        console.table(employeeData);
         doMenuQuestions();
     })
     .catch(err => console.log(err));
