@@ -29,7 +29,7 @@ class EmployeeDatabase extends Database {
 
     getEmployees() {
         return new Promise((resolve, reject) => {
-            this.db.query( 'SELECT * FROM employee INNER JOIN roles ON employee.roles_id = roles.id', (err, results) => {
+            this.db.query( 'SELECT * FROM employee INNER JOIN role ON employee.role_id = role.id', (err, results) => {
                 if (err) { 
                     reject(err);
                 }
@@ -40,6 +40,9 @@ class EmployeeDatabase extends Database {
 
     addDepartment(department) {
         return new Promise((resolve, reject) => {
+
+            console.log (department);
+            
             this.db.query('INSERT INTO department(name) VALUES ($1);', [department.department_name], (err, results) => {
                 if (err) { 
                     reject(err);
