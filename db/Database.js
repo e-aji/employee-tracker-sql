@@ -1,44 +1,41 @@
-const pg = require('pg');
+const { Pool } = require("pg");
 class Database {
-    constructor(options) {
-        this.options = options
-        this.db = null
-    }
+  constructor(options) {
+    this.options = options;
+    this.db = null;
+  }
 
-    validate () {
-        const {host, database, user, password} = this.options;
-        if (!host || !database || !user || !password) 
-            throw new Error('All options must be provided');
-        
-        return;
-    }
+  validate() {
+    const { host, database, user, password } = this.options;
+    if (!host || !database || !user || !password)
+      throw new Error("All options must be provided");
 
-    connect() {
+    return;
+  }
 
-        this.validate();
-    
-        const { host, database, user, password } = this.options;
-    
-        this.db = new pg.Client(    
-        {
-            user: 'postgres',
-            password: 'five',
-            host: 'localhost',
-            database: 'employee_db'
-        });
-    
-        this.db.connect(err => {
-            if (err) {
-                console.error('Error connecting to database:', err);
-            } else {
-                console.log('Connected to Employee database.');
-            }
-        });
-    }
+  connect() {
+    this.validate();
 
-    disconnect () {
-        this.db.disconnect();
-    }
+    const { host, database, user, password } = this.options;
+
+    const pool = new Pool (
+      
+      {
+        user: 'postgres',
+        password: 'five',
+        host: 'localhost',
+        database: 'employee_db'
+      },
+
+      console.log('Connected to the employee database!')
+  );
+
+    pool.connect();
+    this.db = pool;
+  }
+  disconnect() {
+    this.db.disconnect();
+  }
 }
 
 module.exports = Database;

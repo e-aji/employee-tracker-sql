@@ -15,14 +15,14 @@ INSERT INTO role (id, title, salary, department_id) VALUES (8, 'Lawyer', 190000,
 INSERT INTO role (id, title, salary, department_id) VALUES (9, 'Marketing Manager', 100000, 5);
 INSERT INTO role (id, title, salary, department_id) VALUES (10, 'Marketing Specialist', 90000, 5);
 
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (1, 'Aya', 'Gilbert', 1, NULL);
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (1, 'Aya', 'Gilbert', 1, 1);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (2, 'Tobias', 'Black', 2, 1);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (3, 'Mike', 'Chan', 3, 1);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (4, 'Ashley', 'Rodriguez', 4, 3);
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (5, 'Kevin', 'Tupik', 5, NULL);
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (5, 'Kevin', 'Tupik', 5, 3);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (6, 'Kunal', 'Singh', 6, 1);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (7, 'Malia', 'Brown', 7, 6);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (8, 'Sarah', 'Lourd', 8, 7);
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (9, 'Rebekah', 'McPherson', 9, NULL);
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (9, 'Rebekah', 'McPherson', 9, 5);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (10, 'Tom', 'Allen', 10, 9);
 
