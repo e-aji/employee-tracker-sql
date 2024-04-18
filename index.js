@@ -20,7 +20,6 @@ db.connect();
 
 const doMenuQuestions = () => {
   inquirer.prompt(MainMenuQuestions).then((response) => {
-    console.log(response);
     switch (response.option) {
       case "view_departments":
         view_departments();
@@ -51,9 +50,6 @@ const view_departments = () => {
   db.getDepartments()
 
     .then((results) => {
-      //console.log("Data: ", results);
-      // console.log("Data - Rows: ", results.rows);
-
       const departmentData = results.rows;
 
       console.table(departmentData);
@@ -101,10 +97,11 @@ const add_department = () => {
 const add_role = () => {
   db.getDepartments().then((results) => {
     const departmentQuestion = AddRoleQuestions[2];
-    results.rows.forEach((department) => {
+    results.rows.forEach((id, name) => {
+      /// insert choices
       departmentQuestion.choices.push({
-        value: department.id,
-        name: department.name,
+        value: id,
+        name: name,
       });
     });
 
@@ -112,19 +109,19 @@ const add_role = () => {
       db.addRole(response)
         .then((results) => {
           console.log("/n", results, "/n");
+          doMenuQuestions();
         })
         .catch((err) => console.log("Error adding new role", err));
     });
   });
 
-  doMenuQuestions();
 };
 
 const add_employee = () => {
   db.getRoles().then((roleResults) => {
     const roleQuestion = AddEmployeeQuestions[2];
     roleResults.rows.forEach((role) => {
-      const role_summary = `${role.title} (${role.department_name}: ${role.salary})`;
+      const role_summary = `${role.title} (${role.name}: ${role.salary})`;
       roleQuestion.choices.push({
         value: role.id,
         name: role_summary,
@@ -149,13 +146,13 @@ const add_employee = () => {
         db.addEmployee(response)
           .then((results) => {
             console.log("/n", results, "/n");
-          })
+            doMenuQuestions();
+          })          
           .catch((err) => console.log("Error adding new employee", err));
       });
     });
   });
 
-  doMenuQuestions();
 };
 
 const update_role = () => {
@@ -181,13 +178,13 @@ const update_role = () => {
         db.updateEmployeeRole(response)
           .then((results) => {
             console.log("/n", results, "/n");
+            doMenuQuestions();
           })
           .catch((err) => console.log("Error updating role", err));
       });
     });
   });
 
-  doMenuQuestions();
 };
 
 doMenuQuestions();
