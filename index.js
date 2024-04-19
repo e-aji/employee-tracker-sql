@@ -5,6 +5,10 @@ const {
   AddEmployeeQuestions,
   AddRoleQuestions,
   UpdateEmployeeRoleQuestions,
+  UpdateEmployeeManagerQuestions,
+  RemoveDepartmentQuestions,
+  RemoveRoleQuestions,
+  RemoveEmployeeQuestions,
 } = require("./questions.js");
 
 const EmployeeDatabase = require("./db/EmployeeDatabase.js");
@@ -45,6 +49,23 @@ const doMenuQuestions = () => {
       case "update_role":
         update_role();
         break;
+      case "update_manager":
+        update_manager();
+        break;
+      case "remove_department":
+        remove_department();
+        break;
+      case "remove_role":
+        remove_role();
+        break;
+      case "remove_employee":
+        remove_employee();
+        break;
+      case "quit":
+        quit();
+        break;
+      default:
+        quit();
     }
   });
 };
@@ -77,21 +98,12 @@ const view_employees = () => {
   db.getEmployees()
 
     .then((results) => {
+      console.log(results.rows);
       console.table(results.rows);
 
       doMenuQuestions();
     })
     .catch((err) => console.log("Error getting current employees table", err));
-};
-
-const view_managers = () => {
-  db.getManagers()
-
-    .then((results) => {
-      console.table(results.rows);
-      doMenuQuestions();
-    })
-    .catch((err) => console.log("Error getting current managers table", err));
 };
 
 const add_department = () => {
@@ -168,18 +180,16 @@ const add_employee = () => {
 
 const update_role = () => {
   db.getEmployees().then((employeeResults) => {
-    const employeeQuestion = UpdateEmployeeRoleQuestions[0];
     employeeResults.rows.forEach((employee) => {
-      employeeQuestion.choices.push({
+      UpdateEmployeeRoleQuestions[0].choices.push({
         value: employee.id,
         name: employee.first_name + ' ' + employee.last_name,
       });
     });
 
     db.getRoles().then((roleResults) => {
-      const roleQuestion = UpdateEmployeeRoleQuestions[1];
       roleResults.rows.forEach((role) => {
-        roleQuestion.choices.push({
+        UpdateEmployeeRoleQuestions[1].choices.push({
           value: role.id,
           name: role.title,
         });
@@ -196,6 +206,108 @@ const update_role = () => {
     });
   });
 
+};
+
+const update_manager = () => {
+  db.getEmployees().then((employeeResults) => {
+    // console.log("Employees:", employeeResults);
+    employeeResults.rows.forEach((employee) => {
+      UpdateEmployeeManagerQuestions[0].choices.push({
+        value: employee.id,
+        name: employee.first_name + ' ' + employee.last_name,
+      });
+    });
+
+    db.getManagers().then((managerResults) => {
+      console.log("Managers:", managerResults);
+      managerResults.rows.forEach((manager) => {
+        UpdateEmployeeManagerQuestions[1].choices.push({
+          value: manager.id,
+          name: manager.manager,
+        });
+      });
+
+      inquirer.prompt(UpdateEmployeeManagerQuestions).then((response) => {
+        db.updateEmployeeManager(response)
+          .then((results) => {
+            console.log('Manager Updated Successfully');
+            doMenuQuestions();
+          })
+          .catch((err) => console.log("Error updating employee manager", err));
+      });
+    });
+  });
+};
+
+const remove_department = () => {
+  db.getDepartments().then((results) => {
+
+    results.rows.forEach((department) => {
+      RemoveDepartmentQuestions[0].choices.push({
+        value: department.id,
+        name: department.name,
+      });
+    });
+    inquirer.prompt(RemoveDepartmentQuestions).then((response) => {
+      const departmentId = response.department_id;
+      db.removeRole(departmentId)
+        .then((results) => {
+          console.log("Department Successfully Removed");
+          doMenuQuestions();
+        })
+        .catch((err) => console.log("Error removing department", err));
+    });
+  });
+
+};
+
+const remove_role = () => {
+  db.getRoles().then((results) => {
+
+    results.rows.forEach((role) => {
+      RemoveRoleQuestions[0].choices.push({
+        value: role.id,
+        name: role.title,
+      });
+    });
+    inquirer.prompt(RemoveRoleQuestions).then((response) => {
+      const roleId = response.role_id;
+      db.removeRole(roleId)
+        .then((results) => {
+          console.log("Role Successfully Removed");
+          doMenuQuestions();
+        })
+        .catch((err) => console.log("Error removing role", err));
+    });
+  });
+
+};
+
+const remove_employee = () => {
+  db.getEmployees().then((results) => {
+
+    results.rows.forEach((employee) => {
+      RemoveEmployeeQuestions[0].choices.push({
+        value: employee.id,
+        name: employee.first_name + ' ' + employee.last_name,
+      });
+    });
+    inquirer.prompt(RemoveEmployeeQuestions).then((response) => {
+      const employeeId = response.employee_id;
+      db.removeRole(employeeId)
+        .then((results) => {
+          console.log("Employee Successfully Removed");
+          doMenuQuestions();
+        })
+        .catch((err) => console.log("Error removing employee", err));
+    });
+  });
+
+};
+
+const quit = () => {
+  console.log("Thanks For Viewing the Employee Database Tracker!");
+  process.exit();
 };
 
 doMenuQuestions();

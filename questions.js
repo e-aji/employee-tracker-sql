@@ -7,11 +7,15 @@ const MainMenuQuestions = [
            {value: 'view_departments', name: 'View All Departments'},
            {value: 'view_roles', name: 'View All Roles'},
            {value: 'view_employees', name: 'View All Employees'},
-           {value: 'view_managers', name: 'View All Managers'},
            {value: 'add_department', name: 'Add A Department'},
            {value: 'add_role', name: 'Add A Role'},
            {value: 'add_employee', name: 'Add An Employee'},
            {value: 'update_role', name: 'Update An Employee Role'},
+           {value: 'update_manager', name: 'Update An Employee Manager'},
+           {value: 'remove_department', name: 'Remove A Department'},
+           {value: 'remove_role', name: 'Remove A Role'},
+           {value: 'remove_employee', name: 'Remove An Employee'},
+           {value: 'exit', name: 'Exit'}
         ]
     }
 
@@ -97,10 +101,66 @@ const UpdateEmployeeRoleQuestions = [
     }
 ]
 
+const UpdateEmployeeManagerQuestions = [
+    {
+        type: 'list',
+        name: 'employee_id',
+        message: 'Select the employee you would like to update....',
+        choices: [
+            
+        ],
+    },
+    {
+        type: 'list',
+        name: 'manager_id',
+        message: 'Select the new manager for this employee....',
+        choices: [
+            
+        ],
+    }
+]
+
+const RemoveDepartmentQuestions = [
+    {
+        type: 'list',
+        name: 'department_id',
+        message: 'Select the department you would like to remove.... (The roles and employees associated with this department will also be removed)',
+        choices: [
+            
+        ],
+    }
+]
+
+const RemoveRoleQuestions = [
+    {
+        type: 'list',
+        name: 'role_id',
+        message: 'Select the role you would like to remove.... (The employees associated with this role will also be removed)',
+        choices: [
+            
+        ],
+    }
+]
+
+const RemoveEmployeeQuestions = [
+    {
+        type: 'list',
+        name: 'employee_id',
+        message: 'Select the employee you would like to remove....',
+        choices: [
+            
+        ],
+    }
+]
+
 module.exports = {
     MainMenuQuestions,
     AddDepartmentQuestions,
     AddRoleQuestions,
     AddEmployeeQuestions,
-    UpdateEmployeeRoleQuestions
+    UpdateEmployeeRoleQuestions,
+    UpdateEmployeeManagerQuestions,
+    RemoveDepartmentQuestions,
+    RemoveRoleQuestions,
+    RemoveEmployeeQuestions
 }

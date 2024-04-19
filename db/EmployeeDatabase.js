@@ -7,7 +7,7 @@ class EmployeeDatabase extends Database {
 
   getDepartments() {
     return new Promise((resolve, reject) => {
-      this.db.query("SELECT deparment.id, department.name FROM department", (err, results) => {
+      this.db.query("SELECT department.id, department.name FROM department", (err, results) => {
         if (err) {
           reject(err);
         }
@@ -44,10 +44,10 @@ class EmployeeDatabase extends Database {
     });
   }
 
-  getManagers() {
+  getManagers(employeeId) {
     return new Promise((resolve, reject) => {
       this.db.query(
-        "SELECT id, first_name, last_name FROM employee WHERE id != $1;",
+        "SELECT id, first_name, last_name FROM employee WHERE id != $1;", [employeeId],
         (err, results) => {
           if (err) {
             reject(err);
@@ -77,6 +77,7 @@ class EmployeeDatabase extends Database {
   addRole(role) {
     return new Promise((resolve, reject) => {
       this.db.query(
+        //fix this to include the department as it is currently undefined 
         "INSERT INTO role(title, salary, department_id) VALUES ($1, $2, $3);",[role.title, role.salary, role.department_id],
         (err, results) => {
           if (err) {
@@ -90,8 +91,7 @@ class EmployeeDatabase extends Database {
 
   addEmployee(employee) {
     return new Promise((resolve, reject) => {
-      this.db.query(
-        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);",
+      this.db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);",
         [
           employee.first_name,
           employee.last_name,
@@ -112,9 +112,64 @@ class EmployeeDatabase extends Database {
 
   updateEmployeeRole(employee) {
     return new Promise((resolve, reject) => {
-      this.db.query(
-        "UPDATE employee SET role_id = ($1) WHERE id = ($2);",
+      this.db.query("UPDATE employee SET role_id = ($1) WHERE id = ($2);",
         [employee.role_id, employee.employee_id],
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        }
+      );
+    });
+  }
+
+  updateEmployeeManager(employee_id, manager_id) {
+    return new Promise((resolve, reject) => {
+      this.db.query("UPDATE employee SET manager_id = ($1) WHERE id = ($2);",
+        [manager_id, employee_id],
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        }
+      );
+    });
+  }
+
+  // remove functions
+  removeDepartment(departmentId) {
+    return new Promise((resolve, reject) => {
+      this.db.query("DELETE FROM department WHERE id = ($1);",[departmentId],
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        }
+      );
+    });
+  }
+
+  removeRole(roleId) {
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        "DELETE FROM role WHERE id = ($1);",[roleId],
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        }
+      );
+    });
+  }
+
+  removeEmployee(employeeId) {
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        "DELETE FROM employee WHERE id = ($1);",[employeeId],
         (err, results) => {
           if (err) {
             reject(err);
