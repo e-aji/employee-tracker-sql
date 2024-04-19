@@ -7,6 +7,7 @@ const MainMenuQuestions = [
            {value: 'view_departments', name: 'View All Departments'},
            {value: 'view_roles', name: 'View All Roles'},
            {value: 'view_employees', name: 'View All Employees'},
+           {value: 'view_managers', name: 'View All Managers'},
            {value: 'add_department', name: 'Add A Department'},
            {value: 'add_role', name: 'Add A Role'},
            {value: 'add_employee', name: 'Add An Employee'},

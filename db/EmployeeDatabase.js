@@ -7,7 +7,7 @@ class EmployeeDatabase extends Database {
 
   getDepartments() {
     return new Promise((resolve, reject) => {
-      this.db.query("SELECT * FROM department", (err, results) => {
+      this.db.query("SELECT deparment.id, department.name FROM department", (err, results) => {
         if (err) {
           reject(err);
         }
@@ -19,7 +19,7 @@ class EmployeeDatabase extends Database {
   getRoles() {
     return new Promise((resolve, reject) => {
       this.db.query(
-        "SELECT * FROM role INNER JOIN department ON role.department_id = department.id",
+        "SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;",
         (err, results) => {
           if (err) {
             reject(err);
@@ -33,7 +33,21 @@ class EmployeeDatabase extends Database {
   getEmployees() {
     return new Promise((resolve, reject) => {
       this.db.query(
-        "SELECT * FROM employee INNER JOIN role ON employee.role_id = role.id",
+        "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;",
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        }
+      );
+    });
+  }
+
+  getManagers() {
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        "SELECT id, first_name, last_name FROM employee WHERE id != $1;",
         (err, results) => {
           if (err) {
             reject(err);

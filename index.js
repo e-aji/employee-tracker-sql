@@ -30,6 +30,9 @@ const doMenuQuestions = () => {
       case "view_employees":
         view_employees();
         break;
+      case "view_managers":
+        view_managers();
+        break;
       case "add_department":
         add_department();
         break;
@@ -79,6 +82,16 @@ const view_employees = () => {
       doMenuQuestions();
     })
     .catch((err) => console.log("Error getting current employees table", err));
+};
+
+const view_managers = () => {
+  db.getManagers()
+
+    .then((results) => {
+      console.table(results.rows);
+      doMenuQuestions();
+    })
+    .catch((err) => console.log("Error getting current managers table", err));
 };
 
 const add_department = () => {
