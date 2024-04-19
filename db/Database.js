@@ -20,9 +20,10 @@ class Database {
 
     const pool = new Pool (
       
+      // Please enter your details below
       {
         user: 'postgres',
-        password: 'five',
+        password: 'five', 
         host: 'localhost',
         database: 'employee_db'
       },

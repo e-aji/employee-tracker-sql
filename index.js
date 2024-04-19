@@ -83,7 +83,6 @@ const view_employees = () => {
 
 const add_department = () => {
   inquirer.prompt(AddDepartmentQuestions).then((response) => {
-    console.log(response);
 
     db.addDepartment(response)
       .then((results) => {
@@ -96,19 +95,18 @@ const add_department = () => {
 
 const add_role = () => {
   db.getDepartments().then((results) => {
+
     const departmentQuestion = AddRoleQuestions[2];
-    results.rows.forEach((id, name) => {
-      /// insert choices
-      departmentQuestion.choices.push({
-        value: id,
-        name: name,
+    results.rows.forEach((department) => {
+      AddRoleQuestions[2].choices.push({
+        value: department.id,
+        name: department.name,
       });
     });
-
     inquirer.prompt(AddRoleQuestions).then((response) => {
       db.addRole(response)
         .then((results) => {
-          console.log("/n", results, "/n");
+          console.log("\n", results, "\n");
           doMenuQuestions();
         })
         .catch((err) => console.log("Error adding new role", err));
@@ -145,7 +143,7 @@ const add_employee = () => {
       inquirer.prompt(AddEmployeeQuestions).then((response) => {
         db.addEmployee(response)
           .then((results) => {
-            console.log("/n", results, "/n");
+            console.log("\n", results, "\n");
             doMenuQuestions();
           })          
           .catch((err) => console.log("Error adding new employee", err));
@@ -161,7 +159,7 @@ const update_role = () => {
     employeeResults.rows.forEach((employee) => {
       employeeQuestion.choices.push({
         value: employee.id,
-        name: employee.name,
+        name: employee.first_name + ' ' + employee.last_name,
       });
     });
 
@@ -177,7 +175,7 @@ const update_role = () => {
       inquirer.prompt(UpdateEmployeeRoleQuestions).then((response) => {
         db.updateEmployeeRole(response)
           .then((results) => {
-            console.log("/n", results, "/n");
+            console.log('Employee Updated Successfully');
             doMenuQuestions();
           })
           .catch((err) => console.log("Error updating role", err));

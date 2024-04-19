@@ -39,7 +39,7 @@ const AddRoleQuestions = [
         }
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'department_id',
         message: 'Select the department for this role....',
         choices: [

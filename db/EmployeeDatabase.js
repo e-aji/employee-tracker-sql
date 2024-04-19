@@ -63,7 +63,7 @@ class EmployeeDatabase extends Database {
   addRole(role) {
     return new Promise((resolve, reject) => {
       this.db.query(
-        "INSERT INTO role(title, salary, department_id) VALUES ($1, $2, $3);",[title, salary, department_id],
+        "INSERT INTO role(title, salary, department_id) VALUES ($1, $2, $3);",[role.title, role.salary, role.department_id],
         (err, results) => {
           if (err) {
             reject(err);
@@ -99,7 +99,7 @@ class EmployeeDatabase extends Database {
   updateEmployeeRole(employee) {
     return new Promise((resolve, reject) => {
       this.db.query(
-        "UPDATE employee SET role_id = ($1), WHERE id = ($2);",
+        "UPDATE employee SET role_id = ($1) WHERE id = ($2);",
         [employee.role_id, employee.employee_id],
         (err, results) => {
           if (err) {
