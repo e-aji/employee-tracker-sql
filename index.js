@@ -61,10 +61,7 @@ const doMenuQuestions = () => {
       case "remove_employee":
         remove_employee();
         break;
-      case "quit":
-        quit();
-        break;
-      default:
+      default: 
         quit();
     }
   });
@@ -98,7 +95,6 @@ const view_employees = () => {
   db.getEmployees()
 
     .then((results) => {
-      console.log(results.rows);
       console.table(results.rows);
 
       doMenuQuestions();
@@ -144,7 +140,7 @@ const add_employee = () => {
   db.getRoles().then((roleResults) => {
     const roleQuestion = AddEmployeeQuestions[2];
     roleResults.rows.forEach((role) => {
-      const role_summary = `${role.title} (${role.name}: ${role.salary})`;
+      const role_summary = `${role.title} (${role.department}: ${role.salary})`;
       roleQuestion.choices.push({
         value: role.id,
         name: role_summary,
@@ -156,7 +152,7 @@ const add_employee = () => {
       employeeResults.rows.forEach((employee) => {
         managerQuestion.choices.push({
           value: employee.id,
-          name: employee.name,
+          name: employee.first_name + ' ' + employee.last_name,
         });
       });
 
@@ -210,7 +206,6 @@ const update_role = () => {
 
 const update_manager = () => {
   db.getEmployees().then((employeeResults) => {
-    // console.log("Employees:", employeeResults);
     employeeResults.rows.forEach((employee) => {
       UpdateEmployeeManagerQuestions[0].choices.push({
         value: employee.id,
@@ -218,12 +213,11 @@ const update_manager = () => {
       });
     });
 
-    db.getManagers().then((managerResults) => {
-      console.log("Managers:", managerResults);
+    db.getEmployees().then((managerResults) => {
       managerResults.rows.forEach((manager) => {
         UpdateEmployeeManagerQuestions[1].choices.push({
           value: manager.id,
-          name: manager.manager,
+          name: manager.first_name + ' ' + manager.last_name,
         });
       });
 
@@ -250,7 +244,7 @@ const remove_department = () => {
     });
     inquirer.prompt(RemoveDepartmentQuestions).then((response) => {
       const departmentId = response.department_id;
-      db.removeRole(departmentId)
+      db.removeDepartment(departmentId)
         .then((results) => {
           console.log("Department Successfully Removed");
           doMenuQuestions();
@@ -294,7 +288,7 @@ const remove_employee = () => {
     });
     inquirer.prompt(RemoveEmployeeQuestions).then((response) => {
       const employeeId = response.employee_id;
-      db.removeRole(employeeId)
+      db.removeEmployee(employeeId)
         .then((results) => {
           console.log("Employee Successfully Removed");
           doMenuQuestions();

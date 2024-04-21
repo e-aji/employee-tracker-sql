@@ -124,7 +124,7 @@ class EmployeeDatabase extends Database {
     });
   }
 
-  updateEmployeeManager(employee_id, manager_id) {
+  updateEmployeeManager({employee_id, manager_id}) {
     return new Promise((resolve, reject) => {
       this.db.query("UPDATE employee SET manager_id = ($1) WHERE id = ($2);",
         [manager_id, employee_id],
