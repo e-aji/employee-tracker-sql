@@ -51,10 +51,8 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 **The following image shows the application running in the command line**
 
-
-
-
+<img width="1016" alt="Employee Tracker SQL Application " src="https://github.com/e-aji/employee-tracker-sql/assets/156595423/70ee4cea-076c-45f4-b98f-68618628f326">
 
 ## Links
 
-Link to Walkthrough Video - 
+Link to Walkthrough Video - https://youtu.be/Nwm9-pN92iI 
